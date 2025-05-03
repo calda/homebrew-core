@@ -30,7 +30,6 @@ class Recc < Formula
 
   on_macos do
     depends_on "gflags"
-    depends_on "llvm" if DevelopmentTools.clang_build_version <= 1500
   end
 
   on_linux do
@@ -39,11 +38,6 @@ class Recc < Formula
   end
 
   def install
-    if OS.mac? && DevelopmentTools.clang_build_version <= 1500
-      ENV.llvm_clang
-      ENV.append "LDFLAGS", "-L#{Formula["llvm"].opt_lib}/c++ -L#{Formula["llvm"].opt_lib}/unwind -lunwind"
-    end
-
     buildbox_cmake_args = %W[
       -DCASD=ON
       -DCASD_BUILD_BENCHMARK=OFF
